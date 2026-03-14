@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mum's Annual Performance Dashboard 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --rose:#c4748f;
+  --rose-light:#e8a3b8;
+  --rose-pale:#fdf2f7;
+  --cream:#fef9f4;
+  --plum:#7a5a6a;
+  --plum-deep:#5a3d4d;
+  --blush:#f5d5de;
+  --mint:#b8dfd0;
+  --lavender:#c5b3d1;
+  --peach:#f5cdb6;
+  --sky:#a8cce0;
+  --gold:#e8d5a0;
+  --white:#ffffff;
+  --card-shadow:0 2px 20px rgba(74,48,64,.06);
+  --card-shadow-hover:0 8px 32px rgba(74,48,64,.12);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--cream);
+  font-family:'DM Sans',system-ui,sans-serif;
+  color:var(--plum-deep);
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:.018;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px;
+}
+
+/* ── HEADER ── */
+.dashboard-header{
+  background:linear-gradient(135deg,var(--rose-pale) 0%,var(--cream) 40%,#f0e4f0 100%);
+  border-bottom:1px solid var(--blush);
+  padding:48px 32px 40px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.dashboard-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:60px;
+  background:linear-gradient(to bottom,transparent,var(--cream));
+  pointer-events:none;
+}
+.header-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--white);border:1px solid var(--blush);
+  border-radius:100px;padding:8px 20px;margin-bottom:20px;
+  font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose);
+}
+.header-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.dashboard-header h1{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(32px,5vw,56px);
+  font-weight:400;color:var(--plum-deep);
+  line-height:1.15;margin-bottom:8px;
+}
+.dashboard-header h1 span{color:var(--rose);font-style:italic}
+.header-sub{font-size:15px;color:var(--plum);font-weight:300;letter-spacing:.3px}
+.header-sub strong{font-weight:500;color:var(--rose)}
+
+/* ── LAYOUT ── */
+.container{max-width:1200px;margin:0 auto;padding:0 24px 80px}
+.grid{display:grid;gap:24px;margin-top:32px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.full-width{grid-column:1/-1}
+
+/* ── CARDS ── */
+.card{
+  background:var(--white);
+  border-radius:16px;
+  border:1px solid rgba(196,116,143,.08);
+  padding:32px;
+  box-shadow:var(--card-shadow);
+  transition:transform .3s,box-shadow .3s;
+  position:relative;
+  overflow:hidden;
+}
+.card:hover{transform:translateY(-2px);box-shadow:var(--card-shadow-hover)}
+.card-label{
+  font-size:11px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--rose);margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.card-label::before{content:'';width:12px;height:2px;background:var(--rose);border-radius:1px}
+.card h2{font-family:'DM Serif Display',Georgia,serif;font-size:22px;font-weight:400;color:var(--plum-deep);margin-bottom:16px}
+.card h3{font-family:'DM Serif Display',Georgia,serif;font-size:18px;font-weight:400;color:var(--plum-deep);margin-bottom:12px}
+
+/* ── SECTION DIVIDERS ── */
+.section-title{
+  text-align:center;padding:56px 0 8px;
+}
+.section-title h2{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(24px,3.5vw,36px);font-weight:400;color:var(--plum-deep);
+  margin-bottom:4px;
+}
+.section-title p{font-size:14px;color:var(--plum);font-weight:300}
+.section-title .divider{
+  width:48px;height:2px;background:var(--rose);margin:16px auto 0;border-radius:1px;
+}
+
+/* ── EXECUTIVE SUMMARY ── */
+.exec-card{
+  background:linear-gradient(160deg,var(--white) 0%,var(--rose-pale) 100%);
+  border:1px solid var(--blush);
+  position:relative;
+}
+.exec-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--rose),var(--lavender),var(--mint));
+  border-radius:16px 16px 0 0;
+}
+.exec-grid{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:start}
+.exec-rating{display:flex;gap:4px;margin:8px 0 16px}
+.exec-rating span{font-size:24px}
+.exec-detail{font-size:14px;color:var(--plum);line-height:1.8}
+.exec-detail strong{color:var(--plum-deep);font-weight:500}
+.exec-photo{
+  width:160px;height:160px;border-radius:16px;overflow:hidden;
+  border:3px solid var(--white);box-shadow:0 4px 16px rgba(196,116,143,.15);
+  flex-shrink:0;
+}
+.exec-photo img{width:100%;height:100%;object-fit:cover}
+
+/* ── KPI TILES ── */
+.kpi-tile{
+  text-align:center;padding:28px 20px;
+  background:var(--white);border-radius:16px;
+  border:1px solid rgba(196,116,143,.08);
+  box-shadow:var(--card-shadow);
+  transition:transform .3s;
+}
+.kpi-tile:hover{transform:translateY(-3px)}
+.kpi-icon{font-size:28px;margin-bottom:12px}
+.kpi-number{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:36px;color:var(--plum-deep);line-height:1;margin-bottom:4px;
+}
+.kpi-label{font-size:12px;color:var(--plum);font-weight:400;letter-spacing:.3px}
+
+/* ── CHARTS ── */
+.chart-wrap{position:relative;width:100%;margin-top:8px}
+.chart-wrap canvas{width:100%!important}
+
+/* ── TABLES ── */
+.ops-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px}
+.ops-table th{
+  font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--plum);text-align:left;padding:12px 16px;
+  border-bottom:2px solid var(--blush);
+}
+.ops-table td{
+  padding:14px 16px;font-size:14px;color:var(--plum-deep);
+  border-bottom:1px solid rgba(196,116,143,.06);
+}
+.ops-table tr:last-child td{border-bottom:none}
+.ops-table .rating{color:var(--gold);letter-spacing:2px;font-size:13px}
+.ops-table .dept{
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:500;color:var(--plum-deep);
+}
+.ops-table .dept-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
+
+/* ── PATIENCE TABLE ── */
+.patience-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 0;border-bottom:1px solid rgba(196,116,143,.06);
+}
+.patience-row:last-child{border-bottom:none}
+.patience-scenario{font-size:14px;color:var(--plum-deep)}
+.patience-badge{
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;
+}
+.patience-badge.exceptional{background:#e8f5e9;color:#2e7d32}
+.patience-badge.legendary{background:#fff3e0;color:#e65100}
+.patience-badge.elite{background:#e8eaf6;color:#283593}
+
+/* ── AWARDS ── */
+.award-card{
+  text-align:center;padding:28px 20px;
+  background:linear-gradient(160deg,var(--white),var(--rose-pale));
+  border-radius:16px;border:1px solid var(--blush);
+  box-shadow:var(--card-shadow);transition:transform .3s;
+}
+.award-card:hover{transform:translateY(-3px) rotate(-1deg)}
+.award-icon{font-size:40px;margin-bottom:12px}
+.award-title{font-family:'DM Serif Display',Georgia,serif;font-size:15px;color:var(--plum-deep)}
+
+/* ── TESTIMONIALS ── */
+.testimonial{
+  padding:32px;
+  background:var(--white);border-radius:16px;
+  border:1px solid rgba(196,116,143,.08);
+  box-shadow:var(--card-shadow);
+  position:relative;
+}
+.testimonial::before{
+  content:'\201C';position:absolute;top:16px;left:24px;
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:72px;color:var(--blush);line-height:1;
+}
+.testimonial blockquote{
+  font-size:16px;font-style:italic;color:var(--plum-deep);
+  line-height:1.7;margin:0 0 16px;padding-left:8px;
+}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-avatar{
+  width:44px;height:44px;border-radius:50%;overflow:hidden;
+  border:2px solid var(--blush);flex-shrink:0;
+}
+.testimonial-avatar img{width:100%;height:100%;object-fit:cover}
+.testimonial-name{font-weight:600;font-size:14px;color:var(--plum-deep)}
+.testimonial-role{font-size:12px;color:var(--plum);font-weight:300}
+
+/* ── PHOTO GALLERY ── */
+.photo-strip{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:16px;margin-top:16px;
+}
+.photo-strip .photo{
+  border-radius:12px;overflow:hidden;aspect-ratio:1;
+  box-shadow:0 2px 12px rgba(74,48,64,.08);
+  transition:transform .4s;cursor:default;
+}
+.photo-strip .photo:hover{transform:scale(1.03) rotate(-1deg)}
+.photo-strip .photo img{width:100%;height:100%;object-fit:cover}
+
+/* ── GAUGE ── */
+.gauge-container{text-align:center;padding:20px 0}
+.gauge-number{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:72px;color:var(--rose);line-height:1;
+}
+.gauge-number sup{font-size:36px}
+.gauge-bar-track{
+  width:100%;height:14px;background:var(--rose-pale);border-radius:7px;
+  margin:20px 0 12px;overflow:hidden;
+}
+.gauge-bar-fill{
+  height:100%;border-radius:7px;
+  background:linear-gradient(90deg,var(--mint),var(--sky),var(--lavender),var(--rose));
+  width:0;transition:width 2s cubic-bezier(.22,1,.36,1);
+}
+.gauge-note{font-size:13px;color:var(--plum);font-style:italic}
+
+/* ── FUTURE OUTLOOK ── */
+.outlook-list{list-style:none;padding:0}
+.outlook-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 0;font-size:15px;color:var(--plum-deep);
+  border-bottom:1px solid rgba(196,116,143,.06);
+}
+.outlook-list li:last-child{border-bottom:none}
+.outlook-check{
+  width:22px;height:22px;border-radius:6px;
+  background:var(--mint);color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;margin-top:2px;
+}
+
+/* ── CLOSING ── */
+.closing{
+  text-align:center;
+  padding:64px 32px;
+  margin-top:48px;
+  background:linear-gradient(160deg,var(--rose-pale) 0%,var(--cream) 50%,#f0e4f0 100%);
+  border-radius:24px;
+  border:1px solid var(--blush);
+  position:relative;
+  overflow:hidden;
+}
+.closing h2{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:clamp(22px,3.5vw,32px);
+  color:var(--plum-deep);font-weight:400;margin-bottom:16px;
+}
+.closing p{font-size:16px;color:var(--plum);line-height:1.8;max-width:560px;margin:0 auto 8px}
+.closing .sign-off{
+  font-family:'DM Serif Display',Georgia,serif;
+  font-size:20px;color:var(--rose);font-style:italic;
+  margin-top:24px;
+}
+
+/* ── FOOTER ── */
+.site-footer{
+  text-align:center;padding:32px;
+  font-size:12px;color:var(--plum);font-weight:300;
+}
+
+/* ── ANIMATIONS ── */
+.fade-up{
+  opacity:0;transform:translateY(24px);
+  transition:opacity .7s,transform .7s;
+}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:700px){
+  .exec-grid{grid-template-columns:1fr;text-align:center}
+  .exec-photo{margin:0 auto}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .card{padding:24px}
+  .dashboard-header{padding:36px 20px 32px}
+  .container{padding:0 16px 60px}
+  .ops-table{font-size:13px}
+  .ops-table th,.ops-table td{padding:10px 12px}
+  .photo-strip{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="dashboard-header">
+  <div class="header-badge"><span class="dot"></span> Live Dashboard</div>
+  <h1>Mum's Annual<br><span>Performance Report</span></h1>
+  <p class="header-sub">Fiscal Year 2026 &middot; Prepared by <strong>The Quilter Household</strong></p>
+</header>
+
+<div class="container">
+
+  <!-- ═══════════ EXECUTIVE SUMMARY ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Executive Summary</h2>
+    <p>Annual review for the most important person in the organisation</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="card exec-card fade-up" style="margin-top:24px">
+    <div class="card-label">Annual Performance Summary &mdash; 2026</div>
+    <div class="exec-grid">
+      <div>
+        <div style="margin-bottom:6px;font-size:14px;color:var(--plum)">Overall Rating</div>
+        <div class="exec-rating"><span>&#11088;</span><span>&#11088;</span><span>&#11088;</span><span>&#11088;</span><span>&#11088;</span></div>
+        <div class="exec-detail">
+          <strong>Status:</strong> Outstanding<br>
+          <strong>Promotion Status:</strong> Permanent Household CEO<br>
+          <strong>Key Achievement:</strong> Successfully managed two incredible humans while maintaining world-class levels of love, patience, and snacks.
+        </div>
+      </div>
+      <div class="exec-photo">
+        <img src="ae0ed3e4-77fa-491e-839b-f0a8cc259d16.jpg" alt="Isabel and the family" loading="lazy">
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI TILES -->
+  <div class="grid grid-4 fade-up" style="margin-top:24px">
+    <div class="kpi-tile">
+      <div class="kpi-icon">&#129303;</div>
+      <div class="kpi-number" data-count="8742">0</div>
+      <div class="kpi-label">Hugs Delivered</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-icon">&#127858;</div>
+      <div class="kpi-number" data-count="1095">0</div>
+      <div class="kpi-label">Meals Cooked</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-icon">&#128218;</div>
+      <div class="kpi-number" data-count="347">0</div>
+      <div class="kpi-label">Bedtime Stories</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-icon">&#128170;</div>
+      <div class="kpi-number">100%</div>
+      <div class="kpi-label">Crises Managed</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ CORE KPI METRICS ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Core KPI Metrics</h2>
+    <p>Data-driven evidence of exceptional performance</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid grid-2">
+    <!-- Love & Care Chart -->
+    <div class="card fade-up">
+      <div class="card-label">Performance Trend</div>
+      <h3>Love &amp; Care Output Over Time</h3>
+      <div class="chart-wrap"><canvas id="loveChart"></canvas></div>
+    </div>
+    <!-- Snack Distribution -->
+    <div class="card fade-up">
+      <div class="card-label">Supply Chain</div>
+      <h3>Snack Distribution Efficiency</h3>
+      <div class="chart-wrap"><canvas id="snackChart"></canvas></div>
+      <p style="text-align:center;margin-top:12px;font-size:13px;color:var(--plum)">Overall satisfaction rating: <strong style="color:var(--rose)">99.8%</strong></p>
+    </div>
+  </div>
+
+  <!-- Patience Index -->
+  <div class="card fade-up" style="margin-top:24px">
+    <div class="card-label">Resilience Metrics</div>
+    <h3>Patience Index</h3>
+    <p style="font-size:14px;color:var(--plum);margin-bottom:16px">Measured against common high-stress parenting scenarios</p>
+    <div class="patience-row">
+      <span class="patience-scenario">Repeated questions (x47 per day)</span>
+      <span class="patience-badge exceptional">Exceptional</span>
+    </div>
+    <div class="patience-row">
+      <span class="patience-scenario">Bedtime negotiations</span>
+      <span class="patience-badge legendary">Legendary</span>
+    </div>
+    <div class="patience-row">
+      <span class="patience-scenario">Lost shoes before school</span>
+      <span class="patience-badge elite">Elite</span>
+    </div>
+    <div class="patience-row">
+      <span class="patience-scenario">"I'm bored" on rainy days</span>
+      <span class="patience-badge legendary">Legendary</span>
+    </div>
+    <div class="patience-row">
+      <span class="patience-scenario">"But WHY can't I have chocolate for breakfast?"</span>
+      <span class="patience-badge exceptional">Exceptional</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ PHOTO INTERLUDE ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Team Photo Gallery</h2>
+    <p>The crew behind the household's record-breaking year</p>
+    <div class="divider"></div>
+  </div>
+  <div class="card fade-up" style="margin-top:24px;padding:24px">
+    <div class="photo-strip">
+      <div class="photo"><img src="IMG_8161.jpg" alt="Family fun" loading="lazy"></div>
+      <div class="photo"><img src="IMG_2344.jpg" alt="Family holiday" loading="lazy"></div>
+      <div class="photo"><img src="IMG_5481.jpg" alt="Family adventure" loading="lazy"></div>
+      <div class="photo"><img src="IMG_2437.jpg" alt="Family day out" loading="lazy"></div>
+      <div class="photo"><img src="IMG_8507.jpg" alt="Family moments" loading="lazy"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════ HOUSEHOLD OPERATIONS ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Household Operations</h2>
+    <p>Departmental performance breakdown</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="card fade-up" style="margin-top:24px;overflow-x:auto">
+    <div class="card-label">Daily Operations</div>
+    <table class="ops-table">
+      <thead>
+        <tr><th>Department</th><th>Responsibility</th><th>Rating</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="dept"><span class="dept-dot" style="background:var(--rose)"></span>Nutrition</span></td>
+          <td>Cooking delicious meals</td>
+          <td class="rating">&#11088;&#11088;&#11088;&#11088;&#11088;</td>
+        </tr>
+        <tr>
+          <td><span class="dept"><span class="dept-dot" style="background:var(--sky)"></span>Logistics</span></td>
+          <td>School runs &amp; scheduling</td>
+          <td class="rating">&#11088;&#11088;&#11088;&#11088;&#11088;</td>
+        </tr>
+        <tr>
+          <td><span class="dept"><span class="dept-dot" style="background:var(--lavender)"></span>Emotional Support</span></td>
+          <td>Listening &amp; comforting</td>
+          <td class="rating">&#11088;&#11088;&#11088;&#11088;&#11088;</td>
+        </tr>
+        <tr>
+          <td><span class="dept"><span class="dept-dot" style="background:var(--mint)"></span>Entertainment</span></td>
+          <td>Fun days &amp; adventures</td>
+          <td class="rating">&#11088;&#11088;&#11088;&#11088;&#11088;</td>
+        </tr>
+        <tr>
+          <td><span class="dept"><span class="dept-dot" style="background:var(--peach)"></span>Crisis Management</span></td>
+          <td>Fixing problems instantly</td>
+          <td class="rating">&#11088;&#11088;&#11088;&#11088;&#11088;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════ RADAR + GAUGE ═══════════ -->
+  <div class="grid grid-2" style="margin-top:24px">
+    <!-- Skills Radar -->
+    <div class="card fade-up">
+      <div class="card-label">Competency Analysis</div>
+      <h3>Skills Radar Chart</h3>
+      <div class="chart-wrap"><canvas id="radarChart"></canvas></div>
+      <p style="text-align:center;margin-top:8px;font-size:13px;color:var(--plum);font-style:italic">Perfect score across all dimensions</p>
+    </div>
+    <!-- Happiness Gauge -->
+    <div class="card fade-up">
+      <div class="card-label">Satisfaction Index</div>
+      <h3>Household Happiness Index</h3>
+      <div class="gauge-container">
+        <div class="gauge-number">98<sup>%</sup></div>
+        <div class="gauge-bar-track">
+          <div class="gauge-bar-fill" id="gaugeBar"></div>
+        </div>
+        <p class="gauge-note">Remaining 2% attributed to homework and broccoli.</p>
+      </div>
+      <!-- Mini bonus chart -->
+      <div style="margin-top:24px">
+        <div class="card-label">Bonus Metric</div>
+        <h3 style="font-size:16px">Chocolate Consumption Correlation</h3>
+        <div class="chart-wrap"><canvas id="chocoChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ AWARDS ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Awards &amp; Achievements</h2>
+    <p>Recognising outstanding contributions to the household</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid grid-4 fade-up" style="margin-top:24px">
+    <div class="award-card">
+      <div class="award-icon">&#127942;</div>
+      <div class="award-title">World's Best<br>Hug Provider</div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">&#127942;</div>
+      <div class="award-title">Snack Time<br>Champion</div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">&#127942;</div>
+      <div class="award-title">Laundry Mountain<br>Conqueror</div>
+    </div>
+    <div class="award-card">
+      <div class="award-icon">&#127942;</div>
+      <div class="award-title">Bedtime Storytelling<br>Legend</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ TESTIMONIALS ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Customer Testimonials</h2>
+    <p>Verified reviews from household members</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid grid-3 fade-up" style="margin-top:24px">
+    <div class="testimonial">
+      <blockquote>Mum makes the best meals and always knows how to make things better.</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><img src="IMG_8161.jpg" alt="Ella" loading="lazy"></div>
+        <div>
+          <div class="testimonial-name">Ella</div>
+          <div class="testimonial-role">Senior Daughter</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <blockquote>Mum gives the best hugs in the universe.</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><img src="IMG_8507.jpg" alt="Aria" loading="lazy"></div>
+        <div>
+          <div class="testimonial-name">Aria</div>
+          <div class="testimonial-role">Junior Daughter</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <blockquote>The family would fall apart without her.</blockquote>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar"><img src="IMG_2344.jpg" alt="Luke" loading="lazy"></div>
+        <div>
+          <div class="testimonial-name">Luke</div>
+          <div class="testimonial-role">Co-founder of the Household</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ BONUS CHARTS ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Supplementary Analytics</h2>
+    <p>Because the data just keeps getting better</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card fade-up">
+      <div class="card-label">Volume Analysis</div>
+      <h3>Laundry Load Volume Chart</h3>
+      <div class="chart-wrap"><canvas id="laundryChart"></canvas></div>
+    </div>
+    <div class="card fade-up">
+      <div class="card-label">Longitudinal Study</div>
+      <h3>Family Happiness Trendline</h3>
+      <div class="chart-wrap"><canvas id="happinessChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Hug Forecast -->
+  <div class="card fade-up" style="margin-top:24px">
+    <div class="card-label">Predictive Model</div>
+    <h3>Hug Forecast Model &mdash; 2026 Projection</h3>
+    <div class="chart-wrap"><canvas id="hugChart"></canvas></div>
+  </div>
+
+  <!-- ═══════════ FUTURE OUTLOOK ═══════════ -->
+  <div class="section-title fade-up">
+    <h2>Future Outlook</h2>
+    <p>2026 Strategic Objectives</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="card fade-up" style="margin-top:24px">
+    <ul class="outlook-list">
+      <li><span class="outlook-check">&#10003;</span> Continue delivering world-class love and support</li>
+      <li><span class="outlook-check">&#10003;</span> Maintain exceptional snack supply chain</li>
+      <li><span class="outlook-check">&#10003;</span> Expand fun family adventures</li>
+      <li><span class="outlook-check">&#10003;</span> Sustain industry-leading hug production</li>
+    </ul>
+    <p style="margin-top:20px;text-align:center;font-size:15px;color:var(--rose);font-weight:500">
+      Forecast: Another outstanding year ahead
+    </p>
+  </div>
+
+  <!-- ═══════════ CLOSING ═══════════ -->
+  <div class="closing fade-up">
+    <h2>Final Verdict</h2>
+    <p>Mum continues to exceed expectations in every category and remains the most valuable member of the household.</p>
+    <p style="font-size:14px;font-style:italic">No performance improvement plan required. Ever.</p>
+    <div class="sign-off">Happy Mother's Day, Isabel &#x2764;&#xFE0F;<br><span style="font-size:16px;color:var(--plum);font-style:normal;font-family:'DM Sans',sans-serif;font-weight:300">With all our love &mdash; Luke, Ella &amp; Aria</span></div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <p>Quilter Household Analytics &middot; Confidential &middot; Mother's Day 2026</p>
+</footer>
+
+<script>
+/* ── SCROLL ANIMATION ── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+function animateCounters() {
+  document.querySelectorAll('.kpi-number[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const dur = 2000;
+    const start = performance.now();
+    function step(now) {
+      const p = Math.min((now - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString();
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+}
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); counterObs.unobserve(e.target); }});
+}, { threshold: 0.3 });
+const kpiGrid = document.querySelector('.grid-4');
+if (kpiGrid) counterObs.observe(kpiGrid);
+
+/* ── GAUGE ANIMATION ── */
+setTimeout(() => { document.getElementById('gaugeBar').style.width = '98%'; }, 800);
+
+/* ── CHART DEFAULTS ── */
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#7a5a6a';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyleWidth = 10;
+
+const ROSE = '#c4748f';
+const ROSE_L = 'rgba(196,116,143,.15)';
+const MINT = '#b8dfd0';
+const MINT_L = 'rgba(184,223,208,.15)';
+const LAV = '#c5b3d1';
+const LAV_L = 'rgba(197,179,209,.15)';
+const SKY = '#a8cce0';
+const PEACH = '#f5cdb6';
+const GOLD = '#e8d5a0';
+
+/* ── 1. Love & Care Line Chart ── */
+new Chart(document.getElementById('loveChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [
+      { label:'Daily Hugs', data:[20,22,21,24,26,25,28,27,30,29,32,35], borderColor:ROSE, backgroundColor:ROSE_L, fill:true, tension:.4, pointRadius:3, pointBackgroundColor:ROSE },
+      { label:'Kindness Level', data:[90,91,92,91,93,94,95,94,96,95,97,98], borderColor:MINT, backgroundColor:MINT_L, fill:true, tension:.4, pointRadius:3, pointBackgroundColor:MINT, yAxisID:'y1' },
+      { label:'Emotional Support', data:[85,87,86,88,89,90,92,91,93,94,95,97], borderColor:LAV, backgroundColor:LAV_L, fill:true, tension:.4, pointRadius:3, pointBackgroundColor:LAV, yAxisID:'y1' }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.6,
+    scales: {
+      y: { beginAtZero:true, title:{display:true,text:'Hugs/day'}, grid:{color:'rgba(196,116,143,.06)'} },
+      y1: { position:'right', beginAtZero:false, min:80, max:100, title:{display:true,text:'Score'}, grid:{drawOnChartArea:false} },
+      x: { grid:{display:false} }
+    },
+    plugins: { legend:{position:'bottom',labels:{padding:16}} }
+  }
+});
+
+/* ── 2. Snack Distribution Bar Chart ── */
+new Chart(document.getElementById('snackChart'), {
+  type: 'bar',
+  data: {
+    labels: ['School\nSnacks','Emergency\nSnacks','Road Trip\nSnacks','"Just Because"\nSnacks'],
+    datasets: [{
+      label:'Snacks Delivered',
+      data: [365,220,48,412],
+      backgroundColor: [ROSE,MINT,SKY,PEACH],
+      borderRadius:8,
+      borderSkipped:false,
+      barPercentage:.65
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.5,
+    scales: {
+      y: { beginAtZero:true, grid:{color:'rgba(196,116,143,.06)'} },
+      x: { grid:{display:false} }
+    },
+    plugins: { legend:{display:false} }
+  }
+});
+
+/* ── 3. Skills Radar ── */
+new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Love','Patience','Organisation','Creativity','Problem\nSolving','Fun Factor','Kindness','Multitasking'],
+    datasets: [{
+      label:'Isabel',
+      data: [10,10,10,10,10,10,10,10],
+      backgroundColor:'rgba(196,116,143,.12)',
+      borderColor:ROSE,
+      borderWidth:2,
+      pointBackgroundColor:ROSE,
+      pointRadius:4
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.1,
+    scales: {
+      r: {
+        beginAtZero:true, max:10,
+        ticks:{display:false},
+        grid:{color:'rgba(196,116,143,.1)'},
+        angleLines:{color:'rgba(196,116,143,.1)'},
+        pointLabels:{font:{size:12,weight:'500'},color:'#5a3d4d'}
+      }
+    },
+    plugins: { legend:{display:false} }
+  }
+});
+
+/* ── 4. Chocolate Correlation (scatter) ── */
+new Chart(document.getElementById('chocoChart'), {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label:'Chocolate vs Happiness',
+      data:[{x:1,y:72},{x:2,y:78},{x:3,y:83},{x:4,y:89},{x:5,y:93},{x:6,y:96},{x:7,y:98}],
+      backgroundColor:ROSE,
+      pointRadius:6,
+      pointHoverRadius:8
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.6,
+    scales: {
+      x: { title:{display:true,text:'Chocolate Pieces'}, grid:{color:'rgba(196,116,143,.06)'} },
+      y: { title:{display:true,text:'Happiness %'}, min:60, max:100, grid:{color:'rgba(196,116,143,.06)'} }
+    },
+    plugins: {
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>`${ctx.raw.x} pieces → ${ctx.raw.y}% happy`}}
+    }
+  }
+});
+
+/* ── 5. Laundry Volume ── */
+new Chart(document.getElementById('laundryChart'), {
+  type: 'bar',
+  data: {
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [
+      { label:'Whites', data:[18,16,17,15,14,12,11,13,15,16,17,19], backgroundColor:PEACH, borderRadius:4, borderSkipped:false },
+      { label:'Colours', data:[22,20,21,19,18,16,15,17,19,20,22,24], backgroundColor:ROSE, borderRadius:4, borderSkipped:false },
+      { label:'Muddy Sports Kit', data:[8,7,8,10,12,8,6,5,10,11,9,7], backgroundColor:LAV, borderRadius:4, borderSkipped:false }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.5,
+    scales: {
+      x:{stacked:true,grid:{display:false}},
+      y:{stacked:true,title:{display:true,text:'Loads'},grid:{color:'rgba(196,116,143,.06)'}}
+    },
+    plugins:{ legend:{position:'bottom',labels:{padding:12}} }
+  }
+});
+
+/* ── 6. Happiness Trendline ── */
+new Chart(document.getElementById('happinessChart'), {
+  type: 'line',
+  data: {
+    labels:['2020','2021','2022','2023','2024','2025','2026'],
+    datasets: [{
+      label:'Family Happiness',
+      data:[88,90,91,93,95,97,98],
+      borderColor:ROSE,
+      backgroundColor:ROSE_L,
+      fill:true,tension:.4,
+      pointRadius:5,pointBackgroundColor:ROSE,
+      pointBorderColor:'#fff',pointBorderWidth:2
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:1.5,
+    scales: {
+      y:{min:80,max:100,title:{display:true,text:'Happiness %'},grid:{color:'rgba(196,116,143,.06)'}},
+      x:{grid:{display:false}}
+    },
+    plugins:{
+      legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>ctx.raw+'% happy'}}
+    }
+  }
+});
+
+/* ── 7. Hug Forecast ── */
+new Chart(document.getElementById('hugChart'), {
+  type: 'line',
+  data: {
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets: [
+      { label:'Actual Hugs', data:[680,650,720,710,760,750,800,790,810,830,null,null], borderColor:ROSE, backgroundColor:ROSE_L, fill:true, tension:.3, pointRadius:4, pointBackgroundColor:ROSE },
+      { label:'Forecast', data:[null,null,null,null,null,null,null,null,810,850,880,920], borderColor:MINT, backgroundColor:MINT_L, fill:true, tension:.3, borderDash:[6,4], pointRadius:4, pointBackgroundColor:MINT }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:true, aspectRatio:2.2,
+    scales: {
+      y:{title:{display:true,text:'Hugs'},grid:{color:'rgba(196,116,143,.06)'}},
+      x:{grid:{display:false}}
+    },
+    plugins:{
+      legend:{position:'bottom',labels:{padding:16}},
+      tooltip:{callbacks:{label:ctx=>ctx.raw?ctx.raw+' hugs':''}}
+    }
+  }
+});
+</script>
+</body>
+</html>
