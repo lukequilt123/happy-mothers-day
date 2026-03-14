@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Mother's Day, Mum!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&family=Great+Vibes&display=swap');
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --rose: #e8a0b4;
+            --rose-light: #f5d5de;
+            --rose-dark: #c4748f;
+            --cream: #fef9f4;
+            --gold: #d4a853;
+            --text: #4a3040;
+            --text-light: #7a5a6a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── Floating petals ── */
+        .petal {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background: var(--rose-light);
+            border-radius: 50% 0 50% 50%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0%   { opacity: 0; transform: translateY(-10vh) rotate(0deg) translateX(0); }
+            10%  { opacity: 0.7; }
+            90%  { opacity: 0.5; }
+            100% { opacity: 0; transform: translateY(105vh) rotate(720deg) translateX(80px); }
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            background: linear-gradient(160deg, #fdf2f7 0%, #fef9f4 40%, #f9e8ef 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(232,160,180,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 30%, rgba(212,168,83,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            color: var(--rose-dark);
+            line-height: 1.2;
+            animation: fadeUp 1.2s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .hero .mum-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--gold);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+            animation: fadeUp 1.2s ease-out 0.6s forwards;
+            opacity: 0;
+        }
+
+        .hero .subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: clamp(1rem, 2.2vw, 1.4rem);
+            color: var(--text-light);
+            margin-top: 1.5rem;
+            font-weight: 300;
+            max-width: 500px;
+            line-height: 1.7;
+            animation: fadeUp 1.2s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        .hero .from-luke {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--rose-dark);
+            margin-top: 2rem;
+            animation: fadeUp 1.2s ease-out 1.2s forwards;
+            opacity: 0;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            animation: fadeUp 1.2s ease-out 1.8s forwards, bounce 2s ease-in-out 3s infinite;
+            opacity: 0;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+        .scroll-hint span {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 1.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(8px); }
+        }
+
+        /* ── Gallery Section ── */
+        .gallery-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            text-align: center;
+            color: var(--rose-dark);
+            margin-bottom: 3rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(74, 48, 64, 0.1);
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        .gallery-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.4s ease;
+        }
+        .gallery-card:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(74, 48, 64, 0.2);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Featured (wider) cards */
+        .gallery-card.featured {
+            grid-column: span 2;
+        }
+        .gallery-card.featured img {
+            height: 400px;
+        }
+
+        /* ── Love Note Section ── */
+        .love-note {
+            background: linear-gradient(160deg, #fdf2f7 0%, #f9e8ef 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .love-note h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--rose-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .love-note .message {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: var(--text-light);
+            font-weight: 300;
+        }
+        .love-note .message p {
+            margin-bottom: 1.2rem;
+        }
+
+        .love-note .signature {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--rose-dark);
+            margin-top: 2rem;
+        }
+
+        /* ── Lightbox ── */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            cursor: pointer;
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.5);
+            cursor: default;
+        }
+        .lightbox .lb-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: inherit;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .lightbox .lb-close:hover { opacity: 1; }
+        .lightbox .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            padding: 1rem;
+        }
+        .lightbox .lb-nav:hover { opacity: 1; }
+        .lightbox .lb-prev { left: 1rem; }
+        .lightbox .lb-next { right: 1rem; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            background: var(--cream);
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 700px) {
+            .gallery-card.featured { grid-column: span 1; }
+            .gallery-card.featured img { height: 320px; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ── Hero ── -->
+<section class="hero">
+    <h1>Happy Mother's Day</h1>
+    <p class="subtitle">
+        Thanks so much for always being there to support me and now supporting the girls.
+    </p>
+    <p class="from-luke">Love, Luke x</p>
+    <div class="scroll-hint">
+        Scroll to explore
+        <span>&darr;</span>
+    </div>
+</section>
+
+<!-- ── Photo Gallery ── -->
+<section class="gallery-section">
+    <h2 class="section-title">Some of my favourites</h2>
+
+    <div class="gallery-grid">
+        <div class="gallery-card featured" data-index="0">
+            <img src="photos/IMG_4088.jpg" alt="Karen with grandchild" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="1">
+            <img src="photos/IMG_4098.jpg" alt="Karen laughing with grandchild" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="2">
+            <img src="photos/IMG_1906.jpg" alt="Family in the garden" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="3">
+            <img src="photos/IMG_5182.jpg" alt="Family dinner on holiday" loading="lazy">
+        </div>
+        <div class="gallery-card featured" data-index="4">
+            <img src="photos/IMG_6238.jpg" alt="Family at the stadium" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="5">
+            <img src="photos/IMG_4725.jpg" alt="Family at the pub" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="6">
+            <img src="photos/IMG_3382.jpg" alt="Family at a football match" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="7">
+            <img src="photos/IMG_6167.jpg" alt="Family at the stadium box" loading="lazy">
+        </div>
+        <div class="gallery-card featured" data-index="8">
+            <img src="photos/IMG_9354.jpg" alt="Group photo at the stadium" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="9">
+            <img src="photos/IMG_6143.jpg" alt="Family at the match" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="10">
+            <img src="photos/IMG_3969.jpg" alt="Karen at pottery class" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="11">
+            <img src="photos/IMG_5648.JPG" alt="Karen with baby" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="12">
+            <img src="photos/IMG_9338.jpg" alt="Pre-match drinks" loading="lazy">
+        </div>
+        <div class="gallery-card" data-index="13">
+            <img src="photos/50b804aa-7c1b-4748-ab2e-d316226be074.jpg" alt="Family Halloween" loading="lazy">
+        </div>
+    </div>
+</section>
+
+<!-- ── Love Note ── -->
+<section class="love-note">
+    <h2>Love you, Mum</h2>
+    <div class="message">
+        <p>
+            Whether it's match days, holidays, or just a Sunday round the table,
+            it's genuinely always better when you're there.
+        </p>
+        <p>
+            Thanks for everything.
+        </p>
+    </div>
+    <div class="signature">Luke x</div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+    <p>Happy Mother's Day 2026</p>
+</footer>
+
+<!-- ── Lightbox ── -->
+<div class="lightbox" id="lightbox">
+    <button class="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="Previous">&lsaquo;</button>
+    <button class="lb-nav lb-next" aria-label="Next">&rsaquo;</button>
+    <img id="lb-img" src="" alt="">
+</div>
+
+<script>
+    // ── Floating petals ──
+    (function createPetals() {
+        const colors = ['#f5d5de','#e8a0b4','#fce4ec','#f8bbd0','#f3e5f5'];
+        for (let i = 0; i < 12; i++) {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (6 + Math.random() * 8) + 's';
+            petal.style.animationDelay = (Math.random() * 10) + 's';
+            petal.style.width = (8 + Math.random() * 10) + 'px';
+            petal.style.height = petal.style.width;
+            petal.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(petal);
+        }
+    })();
+
+    // ── Scroll reveal for gallery cards ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const delay = Array.from(entry.target.parentElement.children).indexOf(entry.target) * 100;
+                setTimeout(() => entry.target.classList.add('visible'), delay);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.gallery-card').forEach(card => observer.observe(card));
+
+    // ── Lightbox ──
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const cards = document.querySelectorAll('.gallery-card');
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+        currentIndex = index;
+        lbImg.src = cards[index].querySelector('img').src;
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function navigate(direction) {
+        currentIndex = (currentIndex + direction + cards.length) % cards.length;
+        lbImg.src = cards[currentIndex].querySelector('img').src;
+    }
+
+    cards.forEach((card, i) => {
+        card.addEventListener('click', () => openLightbox(i));
+    });
+
+    lightbox.querySelector('.lb-close').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+    lightbox.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigate(-1);
+        if (e.key === 'ArrowRight') navigate(1);
+    });
+</script>
+
+</body>
+</html>
